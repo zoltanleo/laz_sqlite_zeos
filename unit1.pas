@@ -5,8 +5,21 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, DB, memds, DateUtils, Forms, Controls, Graphics, Dialogs,
-  DBGrids, ZDataset, ZConnection, ZAbstractRODataset;
+  Classes
+  , SysUtils
+  , DB
+  , DateUtils
+  , Forms
+  , Controls
+  , Graphics
+  , Dialogs
+  , DBGrids
+  , ZDataset
+  , ZConnection
+  , ZAbstractRODataset
+  , ZDatasetUtils
+  , ZDbcIntfs
+  ;
 
 type
 
@@ -15,7 +28,6 @@ type
   TForm1 = class(TForm)
     ds: TDataSource;
     grTemp: TDBGrid;
-    mds: TMemDataset;
     tmpConn: TZConnection;
     tmpQry: TZQuery;
     tmpTrans: TZTransaction;
@@ -49,22 +61,34 @@ const
     'SELECT count(P.ID) AS CNT ' +
     'FROM PERSONALITY P';
 
+
+  DBFileName = 'C:\proj_laz\laz_sqlite_zeos\base\test_base.db';
+  LibFileName = 'C:\proj_laz\laz_sqlite_zeos\sqlite_lib\sqlite3_x64.dll';
+
 { TForm1 }
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  with mds do
+  with tmpConn do
   begin
-    FieldDefs.Add('ID', ftInteger);
-    FieldDefs.Add('LASTNAME', ftString, 100);
-    FieldDefs.Add('FIRSTNAME', ftString, 100);
-    FieldDefs.Add('THIRDNAME', ftString, 100);
-    FieldDefs.Add('DATEBORN', ftDateTime);
-    FieldDefs.Add('SEX', ftString, 6);
+    ControlsCodePage:= cCP_UTF8;//uses ZDatasetUtils
+    Database:= DBFilename;
+    LibraryLocation:=  LibFileName;
+    Protocol:= 'sqlite';
+    RaiseWarningMessages:= True;
+    RawCharacterTransliterateOptions.Encoding:= encUTF8;//uses ZDbcIntfs
+    TransactIsolationLevel:= tiReadCommitted;//uses ZDbcIntfs
 
-    CreateTable;
-    Filtered:= False;
-    Active := True;
+    //Properties.Strings
+    //BindDoubleDateTimeValues=False
+    //codepage=characterset=utf8:65001/4
+    //controls_cp=CP_UTF8
+    //DateReadFormat=YYYY-MM-DD
+    //DatetimeReadFormat=YYYY-MM-DD HH:NN:SS.F
+    //DatetimeWriteFormat=YYYY-MM-DD HH:NN:SS.F
+    //DateWriteFormat=YYYY-MM-DD
+    //RawStringEncoding=CP_UTF8
+
   end;
 end;
 
@@ -100,7 +124,7 @@ begin
     end;
   finally
     tmpQry.EnableControls;
-    Self.Caption:= Format('Fetch time record count: %d ms/100К items %d ms', [tc_cnt, GetTickCount64 - tc]);
+    Self.Caption:= Format('Time fetching for - record count: %d ms/- 100K records %d ms', [tc_cnt, GetTickCount64 - tc]);
   end;
 end;
 
