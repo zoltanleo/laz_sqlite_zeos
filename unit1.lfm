@@ -1,0 +1,84 @@
+object Form1: TForm1
+  Left = 428
+  Height = 448
+  Top = 34
+  Width = 1069
+  Caption = 'Form1'
+  ClientHeight = 448
+  ClientWidth = 1069
+  DesignTimePPI = 120
+  LCLVersion = '3.99.0.0'
+  OnCreate = FormCreate
+  OnShow = FormShow
+  object grTemp: TDBGrid
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 10
+    Height = 428
+    Top = 10
+    Width = 1049
+    AlternateColor = clBtnFace
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Around = 10
+    Color = clWindow
+    Columns = <>
+    DataSource = ds
+    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgCellHints, dgCellEllipsis, dgDisplayMemoText]
+    ShowHint = True
+    TabOrder = 0
+  end
+  object tmpConn: TZConnection
+    ControlsCodePage = cCP_UTF8
+    RawCharacterTransliterateOptions.Encoding = encUTF8
+    Properties.Strings = (
+      'BindDoubleDateTimeValues=False'
+      'codepage=characterset=utf8:65001/4'
+      'controls_cp=CP_UTF8'
+      'DateReadFormat=YYYY-MM-DD'
+      'DatetimeReadFormat=YYYY-MM-DD HH:NN:SS.F'
+      'DatetimeWriteFormat=YYYY-MM-DD HH:NN:SS.F'
+      'DateWriteFormat=YYYY-MM-DD'
+      'RawStringEncoding=CP_UTF8'
+    )
+    TransactIsolationLevel = tiReadCommitted
+    RaiseWarningMessages = True
+    DisableSavepoints = False
+    Port = 0
+    Database = 'C:\proj_laz\dev_laz_ultrasound\base\test_base.db'
+    Protocol = 'sqlite'
+    LibraryLocation = 'C:\proj_laz\sqlite_lib\sqlite3_x64.dll'
+    Left = 245
+    Top = 48
+  end
+  object tmpTrans: TZTransaction
+    Connection = tmpConn
+    AutoCommit = True
+    Properties.Strings = (
+      'TransactionBehaviour=DEFERRED'
+    )
+    Left = 360
+    Top = 48
+  end
+  object ds: TDataSource
+    AutoEdit = False
+    DataSet = tmpQry
+    Left = 232
+    Top = 120
+  end
+  object tmpQry: TZQuery
+    Connection = tmpConn
+    Transaction = tmpTrans
+    Params = <>
+    Left = 336
+    Top = 120
+  end
+  object mds: TMemDataset
+    FieldDefs = <>
+    Left = 128
+    Top = 120
+  end
+end
