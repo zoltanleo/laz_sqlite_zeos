@@ -13,7 +13,9 @@ uses
   , Controls
   , Graphics
   , Dialogs
-  , DBGrids, LazUtils, LazFileUtils
+  , DBGrids
+  , LazUtils
+  , LazFileUtils
   , ZDataset
   , ZConnection
   , ZAbstractRODataset
@@ -104,7 +106,6 @@ begin
     //DatetimeWriteFormat=YYYY-MM-DD HH:NN:SS.F
     //DateWriteFormat=YYYY-MM-DD
     //RawStringEncoding=CP_UTF8
-
   end;
 end;
 
