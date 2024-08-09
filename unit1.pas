@@ -13,7 +13,7 @@ uses
   , Controls
   , Graphics
   , Dialogs
-  , DBGrids
+  , DBGrids, LazUtils, LazFileUtils
   , ZDataset
   , ZConnection
   , ZAbstractRODataset
@@ -34,9 +34,9 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
-
+    FAppDir: String;
   public
-
+    property AppDir: String read FAppDir;
   end;
 
 var
@@ -54,7 +54,10 @@ const
         ', P.FIRSTNAME' +
         ', P.THIRDNAME' +
         ', P.DATEBORN' +
-        ', iif(P.SEX = 1,''male'',''female'') AS SEX ' +
+        //', iif(P.SEX = 1,''male'',''female'') AS SEX ' +
+        ', CASE ' +
+            'WHEN P.SEX = 1 THEN ''male'' ELSE ''female'' ' +
+          'END AS SEX ' +
     'FROM PERSONALITY P';
 
     SQLText_cnt =
@@ -62,18 +65,31 @@ const
     'FROM PERSONALITY P';
 
 
-  DBFileName = 'C:\proj_laz\laz_sqlite_zeos\base\test_base.db';
-  LibFileName = 'C:\proj_laz\laz_sqlite_zeos\sqlite_lib\sqlite3_x64.dll';
+
+  {$IFDEF MSWINDOWS}
+    DBFileName = 'base\test_base.db';
+    LibFileName = 'sqlite_lib\sqlite3_x64.dll';
+  {$ELSE}
+    {$IFNDEF DARWIN}
+    DBFileName = 'base/test_base.db';
+    LibFileName = 'sqlite_lib/sqlite3.so';
+    {$ELSE}
+      LibFileName = '';
+    {$ENDIF}
+
+  {$ENDIF}
 
 { TForm1 }
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  FAppDir:= CleanAndExpandDirectory(ExtractFilePath(Application.ExeName));
+
   with tmpConn do
   begin
     ControlsCodePage:= cCP_UTF8;//uses ZDatasetUtils
-    Database:= DBFilename;
-    LibraryLocation:=  LibFileName;
+    Database:= AppDir + DBFilename;
+    LibraryLocation:= AppDir + LibFileName;
     Protocol:= 'sqlite';
     RaiseWarningMessages:= True;
     RawCharacterTransliterateOptions.Encoding:= encUTF8;//uses ZDbcIntfs

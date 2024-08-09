@@ -2,6 +2,10 @@
 
 This is a test project using the sqlite3 database and ZEOS access components
 
+2024.08.09
+- the paths to the sqlite libraries have been changed taking into account the current OS
+- the request text has been changed due to the missing "IIF" function
+
 2024.08.06.1
 - added a folder with sqlite libraries for different platforms
 
