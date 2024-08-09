@@ -1,11 +1,12 @@
 object Form1: TForm1
   Left = 538
-  Height = 358
+  Height = 448
   Top = 278
-  Width = 855
+  Width = 1069
   Caption = 'Form1'
-  ClientHeight = 358
-  ClientWidth = 855
+  ClientHeight = 448
+  ClientWidth = 1069
+  DesignTimePPI = 120
   LCLVersion = '3.99.0.0'
   OnCreate = FormCreate
   OnShow = FormShow
@@ -16,14 +17,14 @@ object Form1: TForm1
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 8
-    Height = 342
-    Top = 8
-    Width = 839
+    Left = 10
+    Height = 428
+    Top = 10
+    Width = 1049
     AlternateColor = clBtnFace
     Anchors = [akTop, akLeft, akRight, akBottom]
     AutoFillColumns = True
-    BorderSpacing.Around = 8
+    BorderSpacing.Around = 10
     Color = clWindow
     Columns = <>
     DataSource = ds
@@ -36,8 +37,8 @@ object Form1: TForm1
     TransactIsolationLevel = tiReadCommitted
     DisableSavepoints = False
     Port = 0
-    Left = 196
-    Top = 38
+    Left = 245
+    Top = 48
   end
   object tmpTrans: TZTransaction
     Connection = tmpConn
@@ -45,20 +46,20 @@ object Form1: TForm1
     Properties.Strings = (
       'TransactionBehaviour=DEFERRED'
     )
-    Left = 288
-    Top = 38
+    Left = 360
+    Top = 48
   end
   object ds: TDataSource
     AutoEdit = False
     DataSet = tmpQry
-    Left = 186
-    Top = 96
+    Left = 233
+    Top = 120
   end
   object tmpQry: TZQuery
     Connection = tmpConn
     Transaction = tmpTrans
     Params = <>
-    Left = 269
-    Top = 96
+    Left = 336
+    Top = 120
   end
 end

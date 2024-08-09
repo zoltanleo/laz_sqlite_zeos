@@ -83,13 +83,13 @@ const
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  FAppDir:= CleanAndExpandDirectory(ExtractFilePath(Application.ExeName));
+  FAppDir:= ExtractFilePath(Application.ExeName);
 
   with tmpConn do
   begin
     ControlsCodePage:= cCP_UTF8;//uses ZDatasetUtils
-    Database:= AppDir + DBFilename;
-    LibraryLocation:= AppDir + LibFileName;
+    Database:= CleanAndExpandFilename(AppDir + DBFilename);
+    LibraryLocation:= CleanAndExpandFilename(AppDir + LibFileName);
     Protocol:= 'sqlite';
     RaiseWarningMessages:= True;
     RawCharacterTransliterateOptions.Encoding:= encUTF8;//uses ZDbcIntfs
